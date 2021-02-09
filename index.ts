@@ -20,7 +20,7 @@ const parsed: parsedArg = parse(Deno.args)
 const filename: string = parsed._[0].toString()
 
 if (filename === undefined) {
-  throw new FileNotFoundError(`File "${filename}" not found.`)
+  throw new FileNotFoundError(`Filename not detected.`)
 }
 
 try {
