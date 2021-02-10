@@ -19,7 +19,21 @@ const enumToMarkdown = (node: DocNodeEnum): string => {
   if (node.enumDef.members.length !== 0) {
     result.push('\n\n')
     result.push(
-      node.enumDef.members.map((member) => '## • ' + member.name).join('\n')
+      node.enumDef.members
+        .map((member) => {
+          const result = ['## • ' + member.name]
+          // jsDoc
+          if (checkIfNotNullOrUndefined(node.jsDoc)) {
+            result.push(
+              '\n\n' +
+                node.jsDoc
+                  .split('\n')
+                  .map((jsdoc) => `> ${jsdoc}`)
+                  .join('\n> \n')
+            )
+          }
+        })
+        .join('\n')
     )
   }
 

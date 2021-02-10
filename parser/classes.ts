@@ -137,6 +137,17 @@ const classToMarkdown = (node: DocNodeClass): string => {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
         }
 
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
+          )
+        }
+
         return result.join('')
       })
       .join('\n')
@@ -175,6 +186,17 @@ const classToMarkdown = (node: DocNodeClass): string => {
         if (node.functionDef.returnType) {
           result.push(
             `: ${TsType(node.functionDef.returnType, parent.scope ?? [])}`
+          )
+        }
+
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
           )
         }
 
@@ -231,6 +253,17 @@ const classToMarkdown = (node: DocNodeClass): string => {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
         }
 
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
+          )
+        }
+
         return result.join('')
       })
       .join('\n')
@@ -269,6 +302,17 @@ const classToMarkdown = (node: DocNodeClass): string => {
         if (node.functionDef.returnType) {
           result.push(
             `: ${TsType(node.functionDef.returnType, parent.scope ?? [])}`
+          )
+        }
+
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
           )
         }
 

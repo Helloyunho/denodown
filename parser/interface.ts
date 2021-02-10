@@ -45,6 +45,17 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
         }
 
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
+          )
+        }
+
         return result.join('')
       })
       .join('\n')
@@ -63,6 +74,17 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
         }
         if (checkIfNotNullOrUndefined(node.tsType)) {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
+        }
+
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
+          )
         }
 
         return result.join('')
@@ -84,6 +106,17 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
         result.push(`(${params(node.params, parent.scope ?? [])})`)
         if (checkIfNotNullOrUndefined(node.returnType)) {
           result.push(`: ${TsType(node.returnType, parent.scope ?? [])}`)
+        }
+
+        // jsDoc
+        if (checkIfNotNullOrUndefined(node.jsDoc)) {
+          result.push(
+            '\n\n' +
+              node.jsDoc
+                .split('\n')
+                .map((jsdoc) => `> ${jsdoc}`)
+                .join('\n> \n')
+          )
         }
 
         return result.join('')
