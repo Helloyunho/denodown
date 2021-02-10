@@ -59,7 +59,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
         )
       : undefined
 
-  const result: string[] = ['## ']
+  const result: string[] = ['# ']
 
   // prefix
   if (node.classDef.isAbstract) {
@@ -72,16 +72,16 @@ const classToMarkdown = (node: DocNodeClass): string => {
   // suffix
   if (node.classDef.typeParams.length !== 0) {
     result.push(
-      `&lt;${typeParams(node.classDef.typeParams, node.scope ?? [])}&gt;`
+      `\\<${typeParams(node.classDef.typeParams, node.scope ?? [])}\\>`
     )
   }
   if (checkIfNotNullOrUndefined(node.classDef.extends)) {
     result.push(` extends ${linkRef(extendsLink, node.classDef.extends)}`)
     if (node.classDef.superTypeParams.length !== 0) {
       result.push(
-        `&lt;${node.classDef.superTypeParams
+        `\\<${node.classDef.superTypeParams
           .map((tstype) => TsType(tstype, node.scope ?? []))
-          .join(', ')}&gt;`
+          .join(', ')}\\>`
       )
     }
   }
@@ -99,21 +99,21 @@ const classToMarkdown = (node: DocNodeClass): string => {
 
   // contents
   if (constructors.length !== 0) {
-    result.push('\n\nConstructors:\n')
+    result.push('\n\n## Constructors:\n')
     result.push(
       constructors
         .map(
           (node) =>
-            ` - ${node.name}(${params(node.params, parent.scope ?? [])})`
+            `### • ${node.name}(${params(node.params, parent.scope ?? [])})`
         )
         .join('\n')
     )
   }
   if (realProperties.length !== 0) {
-    result.push('\n\nProperties:\n')
+    result.push('\n\n## Properties:\n')
     const propertiesMarkdowned = realProperties
       .map((node) => {
-        const result = [' - ']
+        const result = ['### • ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -143,10 +143,10 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push(propertiesMarkdowned)
   }
   if (realMethods.length !== 0) {
-    result.push('\n\nMethods:\n')
+    result.push('\n\n## Methods:\n')
     const methodsMarkdowned = realMethods
       .map((node) => {
-        const result = [' - ']
+        const result = ['### • ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -184,10 +184,10 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push(methodsMarkdowned)
   }
   if (indexSignatures.length !== 0) {
-    result.push('\n\nIndex Signatures:\n')
+    result.push('\n\n## Index Signatures:\n')
     const indexSignaturesMarkdowned = indexSignatures
       .map((node) => {
-        const result = [' - ']
+        const result = ['### • ']
 
         if (node.readonly) {
           result.push('readonly ')
@@ -204,10 +204,10 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push(indexSignaturesMarkdowned)
   }
   if (staticProperties.length !== 0) {
-    result.push('\n\nStatic Properties:\n')
+    result.push('\n\n## Static Properties:\n')
     const propertiesMarkdowned = staticProperties
       .map((node) => {
-        const result = [' - ']
+        const result = ['### • ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -237,10 +237,10 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push(propertiesMarkdowned)
   }
   if (staticMethod.length !== 0) {
-    result.push('\n\nStatic Methods:\n')
+    result.push('\n\n## Static Methods:\n')
     const methodsMarkdowned = staticMethod
       .map((node) => {
-        const result = [' - ']
+        const result = ['### • ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {

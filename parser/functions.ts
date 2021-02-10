@@ -5,7 +5,7 @@ import { TsType } from './tstype.ts'
 const functionToMarkdown = (node: DocNodeFunction): string => {
   const scope = node.scope ?? []
   const result = [
-    `## function ${node.scope?.join('.') ?? ''}${node.name}(${params(
+    `# function ${node.scope?.join('.') ?? ''}${node.name}(${params(
       node.functionDef.params,
       scope
     )})`

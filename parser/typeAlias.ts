@@ -3,7 +3,7 @@ import { DocNodeTypeAlias } from '../utils/docs.ts'
 import { TsType } from './tstype.ts'
 
 const typeAliasToMarkdown = (node: DocNodeTypeAlias): string => {
-  const result = [`## type ${node.name}`]
+  const result = [`# type ${node.name}`]
 
   // suffix
   if (checkIfNotNullOrUndefined(node.typeAliasDef?.tsType)) {

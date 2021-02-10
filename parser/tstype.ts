@@ -126,15 +126,15 @@ const TsType = (tstype: TsTypeDef, scope: string[]): string => {
               : ''
           }`
       )
-      const indexSitnatures = tstype.typeLiteral.indexSignatures.map(
+      const indexSignatures = tstype.typeLiteral.indexSignatures.map(
         (indexSignature) =>
-          `${indexSignature.readonly ? 'readonly ' : ''} ${params(
+          `${indexSignature.readonly ? 'readonly ' : ''} [${params(
             indexSignature.params,
             scope
-          )}${
+          )}]${
             indexSignature.tsType !== undefined &&
             indexSignature.tsType !== null
-              ? `: ${TsType(indexSignature.tsType, scope)}`
+              ? `: ${TsType(indexSignature.tsType, scope)} `
               : ''
           }`
       )
@@ -142,7 +142,7 @@ const TsType = (tstype: TsTypeDef, scope: string[]): string => {
       const result: string[] = []
 
       return `{${result
-        .concat(callSignatures, methods, properties, indexSitnatures)
+        .concat(callSignatures, methods, properties, indexSignatures)
         .join(', ')}}`
     }
     case TsTypeDefKind.TypeOperator: {
@@ -180,7 +180,7 @@ const TsType = (tstype: TsTypeDef, scope: string[]): string => {
       return `${linkRef(link, tstype.typeRef.typeName)}${
         tstype.typeRef.typeParams !== undefined &&
         tstype.typeRef.typeParams !== null
-          ? `&lt;${params}&gt;`
+          ? `\\<${params}\\>`
           : ''
       }`
     }

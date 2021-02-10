@@ -614,9 +614,49 @@ export function getLinkByScopedName(
         }
       }
     }
-    return {
-      type: 'local',
-      href: `#${node.scope ? node.scope.join('.') + '.' : ''}${node.name}`
+    switch (node.kind) {
+      case DocNodeKind.Class: {
+        return {
+          type: 'local',
+          href: `../classes/${node.name}.md`
+        }
+      }
+      case DocNodeKind.Enum: {
+        return {
+          type: 'local',
+          href: `../enums/${node.name}.md`
+        }
+      }
+      case DocNodeKind.Function: {
+        return {
+          type: 'local',
+          href: `../functions/${node.name}.md`
+        }
+      }
+      case DocNodeKind.Interface: {
+        return {
+          type: 'local',
+          href: `../interfaces/${node.name}.md`
+        }
+      }
+      case DocNodeKind.Namespace: {
+        return {
+          type: 'local',
+          href: '' // Later when I added readme in namespace
+        }
+      }
+      case DocNodeKind.TypeAlias: {
+        return {
+          type: 'local',
+          href: `../typeAliases/${node.name}.md`
+        }
+      }
+      case DocNodeKind.Variable: {
+        return {
+          type: 'local',
+          href: `../variables/${node.name}.md`
+        }
+      }
     }
   }
   if (runtimeBuiltins) {

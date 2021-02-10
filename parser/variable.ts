@@ -17,7 +17,7 @@ const variableToMarkdown = (node: DocNodeVariable): string => {
     type.typeLiteral.methods.length === 0 &&
     type.typeLiteral.callSignatures.length === 0
 
-  const result = [`## ${node.variableDef.kind} ${node.name}`]
+  const result = [`# ${node.variableDef.kind} ${node.name}`]
 
   // suffix
   if (isNamespace) {
@@ -51,11 +51,11 @@ const variableNamespaceToMarkdown = (
   parent: DocNodeVariable
 ): string => {
   const result = [
-    'Properties:',
+    '## Properties:',
     '\n\n',
     nodes
       .map((node) => {
-        const result = [` - ${node.name}`]
+        const result = [`### • ${node.name}`]
 
         if (checkIfNotNullOrUndefined(node.tsType)) {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)

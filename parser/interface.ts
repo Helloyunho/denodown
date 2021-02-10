@@ -10,12 +10,12 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
     return TsType(tstype, parent.scope ?? [])
   })
 
-  const result = [`## interface ${node.name}`]
+  const result = [`# interface ${node.name}`]
 
   // suffix
   if (node.interfaceDef.typeParams.length !== 0) {
     result.push(
-      `&lt;${typeParams(node.interfaceDef.typeParams, node.scope ?? [])}&gt;`
+      `\\<${typeParams(node.interfaceDef.typeParams, node.scope ?? [])}\\>`
     )
   }
   if (extendsItems.length !== 0) {
@@ -35,11 +35,11 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
 
   // details
   if (node.interfaceDef.callSignatures.length !== 0) {
-    result.push('\n\nCall Signatures:\n')
+    result.push('\n\n## Call Signatures:\n')
 
     const callSignaturesMarkdowned = node.interfaceDef.callSignatures
       .map((node) => {
-        const result = [` - ${params(node.params, parent.scope ?? [])}`]
+        const result = [`### • ${params(node.params, parent.scope ?? [])}`]
 
         if (checkIfNotNullOrUndefined(node.tsType)) {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
@@ -52,11 +52,11 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
     result.push(callSignaturesMarkdowned)
   }
   if (node.interfaceDef.properties.length !== 0) {
-    result.push('\n\nProperties:\n')
+    result.push('\n\n## Properties:\n')
 
     const propertiesMarkdowned = node.interfaceDef.properties
       .map((node) => {
-        const result = [` - ${node.name}`]
+        const result = [`### • ${node.name}`]
 
         if (node.optional) {
           result.push('?')
@@ -72,11 +72,11 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
     result.push(propertiesMarkdowned)
   }
   if (node.interfaceDef.methods.length !== 0) {
-    result.push('\n\nMethods:\n')
+    result.push('\n\n## Methods:\n')
 
     const methodsMarkdowned = node.interfaceDef.methods
       .map((node) => {
-        const result = [` - ${node.name}`]
+        const result = [`### • ${node.name}`]
 
         if (node.optional) {
           result.push('?')
@@ -93,11 +93,11 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
     result.push(methodsMarkdowned)
   }
   if (node.interfaceDef.indexSignatures.length !== 0) {
-    result.push('\n\nIndex Signatures:\n')
+    result.push('\n\n## Index Signatures:\n')
 
     const indexSignaturesMarkdowned = node.interfaceDef.indexSignatures
       .map((node) => {
-        const result = [` - `]
+        const result = [`### • `]
 
         if (node.readonly) {
           result.push('readonly ')
