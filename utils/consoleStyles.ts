@@ -9,7 +9,7 @@ const warningText = (...args: any[]) =>
 const infoText = (...args: any[]) =>
   `${colors.bgBrightCyan.black('  INFO  ')} ${args.join(' ')}`
 
-const successText = (...args: any[]) =>
-  `${colors.bgBrightGreen.black('  SUCCESS  ')} ${args.join(' ')}`
+const doneText = (...args: any[]) =>
+  `${colors.bgBrightGreen.black('  DONE  ')} ${args.join(' ')}`
 
-export { errorText, warningText, infoText, successText }
+export { errorText, warningText, infoText, doneText }

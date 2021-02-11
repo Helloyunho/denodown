@@ -8,7 +8,7 @@ import {
 import { generateMarkdown } from './utils/generate.ts'
 import { checkIfSiteGeneratorActivated } from './utils/checker.ts'
 import { Command } from './deps.ts'
-import { errorText, infoText, successText } from './utils/consoleStyles.ts'
+import { errorText, infoText, doneText } from './utils/consoleStyles.ts'
 
 interface parsedOptions {
   filename: string
@@ -96,4 +96,4 @@ if (configResult.vuepress !== undefined) {
   )
 }
 
-console.log(successText(`Done! Took ${Date.now() - startTime}ms.`))
+console.log(doneText(`Done! Took ${Date.now() - startTime}ms.`))
