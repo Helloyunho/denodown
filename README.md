@@ -6,10 +6,16 @@
 
 Basically I read some important components' source from [deno's official doc website](https://github.com/denoland/doc_website/) and hand-copied the source while changing some things for markdown.
 
+## Install:
+
+```
+deno install --allow-read --allow-write --allow-run https://deno.land/x/denodown/index.ts
+```
+
 ## Usage:
 
 ```
-Denodown <filename> <options>
+denodown <filename> <options>
 
 Options:
 
