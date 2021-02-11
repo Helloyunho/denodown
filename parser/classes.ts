@@ -71,9 +71,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
 
   // suffix
   if (node.classDef.typeParams.length !== 0) {
-    result.push(
-      `\\<${typeParams(node.classDef.typeParams, node.scope ?? [])}\\>`
-    )
+    result.push(`\\<${typeParams(node.classDef.typeParams, node.scope ?? [])}>`)
   }
   if (checkIfNotNullOrUndefined(node.classDef.extends)) {
     result.push(` extends ${linkRef(extendsLink, node.classDef.extends)}`)
@@ -81,7 +79,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
       result.push(
         `\\<${node.classDef.superTypeParams
           .map((tstype) => TsType(tstype, node.scope ?? []))
-          .join(', ')}\\>`
+          .join(', ')}>`
       )
     }
   }
@@ -104,7 +102,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
       constructors
         .map(
           (node) =>
-            `### • ${node.name}(${params(node.params, parent.scope ?? [])})`
+            `### ${node.name}(${params(node.params, parent.scope ?? [])})`
         )
         .join('\n')
     )
@@ -113,7 +111,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push('\n\n## Properties:\n')
     const propertiesMarkdowned = realProperties
       .map((node) => {
-        const result = ['### • ']
+        const result = ['### ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -157,7 +155,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push('\n\n## Methods:\n')
     const methodsMarkdowned = realMethods
       .map((node) => {
-        const result = ['### • ']
+        const result = ['### ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -209,7 +207,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push('\n\n## Index Signatures:\n')
     const indexSignaturesMarkdowned = indexSignatures
       .map((node) => {
-        const result = ['### • ']
+        const result = ['### ']
 
         if (node.readonly) {
           result.push('readonly ')
@@ -229,7 +227,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push('\n\n## Static Properties:\n')
     const propertiesMarkdowned = staticProperties
       .map((node) => {
-        const result = ['### • ']
+        const result = ['### ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {
@@ -273,7 +271,7 @@ const classToMarkdown = (node: DocNodeClass): string => {
     result.push('\n\n## Static Methods:\n')
     const methodsMarkdowned = staticMethod
       .map((node) => {
-        const result = ['### • ']
+        const result = ['### ']
 
         // prefix
         if (checkIfNotNullOrUndefined(node.accessibility)) {

@@ -21,7 +21,7 @@ const enumToMarkdown = (node: DocNodeEnum): string => {
     result.push(
       node.enumDef.members
         .map((member) => {
-          const result = ['## • ' + member.name]
+          const result = ['## ' + member.name]
           // jsDoc
           if (checkIfNotNullOrUndefined(node.jsDoc)) {
             result.push(

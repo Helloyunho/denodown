@@ -55,7 +55,7 @@ const variableNamespaceToMarkdown = (
     '\n\n',
     nodes
       .map((node) => {
-        const result = [`### • ${node.name}`]
+        const result = [`### ${node.name}`]
 
         if (checkIfNotNullOrUndefined(node.tsType)) {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)

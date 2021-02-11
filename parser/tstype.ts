@@ -180,7 +180,7 @@ const TsType = (tstype: TsTypeDef, scope: string[]): string => {
       return `${linkRef(link, tstype.typeRef.typeName)}${
         tstype.typeRef.typeParams !== undefined &&
         tstype.typeRef.typeParams !== null
-          ? `\\<${params}\\>`
+          ? `\\<${params}>`
           : ''
       }`
     }

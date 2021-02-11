@@ -1,1 +1,2 @@
-export { parse } from 'https://deno.land/std@0.86.0/flags/mod.ts'
+export { Command } from 'https://deno.land/x/cliffy@v0.17.2/command/mod.ts'
+export { colors } from 'https://deno.land/x/cliffy@v0.17.2/ansi/colors.ts'

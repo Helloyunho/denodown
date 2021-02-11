@@ -15,7 +15,7 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
   // suffix
   if (node.interfaceDef.typeParams.length !== 0) {
     result.push(
-      `\\<${typeParams(node.interfaceDef.typeParams, node.scope ?? [])}\\>`
+      `\\<${typeParams(node.interfaceDef.typeParams, node.scope ?? [])}>`
     )
   }
   if (extendsItems.length !== 0) {
@@ -39,7 +39,7 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
 
     const callSignaturesMarkdowned = node.interfaceDef.callSignatures
       .map((node) => {
-        const result = [`### • ${params(node.params, parent.scope ?? [])}`]
+        const result = [`### ${params(node.params, parent.scope ?? [])}`]
 
         if (checkIfNotNullOrUndefined(node.tsType)) {
           result.push(`: ${TsType(node.tsType, parent.scope ?? [])}`)
@@ -67,7 +67,7 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
 
     const propertiesMarkdowned = node.interfaceDef.properties
       .map((node) => {
-        const result = [`### • ${node.name}`]
+        const result = [`### ${node.name}`]
 
         if (node.optional) {
           result.push('?')
@@ -98,7 +98,7 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
 
     const methodsMarkdowned = node.interfaceDef.methods
       .map((node) => {
-        const result = [`### • ${node.name}`]
+        const result = [`### ${node.name}`]
 
         if (node.optional) {
           result.push('?')
@@ -130,7 +130,7 @@ const interfaceToMarkdown = (node: DocNodeInterface) => {
 
     const indexSignaturesMarkdowned = node.interfaceDef.indexSignatures
       .map((node) => {
-        const result = [`### • `]
+        const result = [`### `]
 
         if (node.readonly) {
           result.push('readonly ')

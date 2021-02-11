@@ -6,9 +6,30 @@ import { interfaceToMarkdown } from '../parser/interface.ts'
 import { variableToMarkdown } from '../parser/variable.ts'
 import { typeAliasToMarkdown } from '../parser/typeAlias.ts'
 import { namespaceToMarkdown } from '../parser/namespace.ts'
-import { checkAndCreateDir } from './checker.ts'
+import { checkAndCreateDir, SupportedSiteGenerators } from './checker.ts'
+import { warningText } from './consoleStyles.ts'
 
-const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
+export interface VuepressSidebarConfig {
+  title: string
+  children: Array<string | VuepressSidebarConfig>
+}
+
+interface SidebarObject {
+  vuepress?: VuepressSidebarConfig[]
+}
+
+export interface MarkdownGeneratorArgs {
+  groups: GroupedNodes
+  pathPrefix?: string
+  siteGenerators: SupportedSiteGenerators[]
+}
+
+const generateMarkdown = ({
+  groups,
+  pathPrefix,
+  siteGenerators
+}: MarkdownGeneratorArgs) => {
+  const sidebar: SidebarObject = {}
   const outDirPath = `${pathPrefix ?? ''}`
   if (groups.functions.length !== 0) {
     checkAndCreateDir(`${outDirPath}/functions/`)
@@ -17,6 +38,26 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = functionToMarkdown(func)
 
       Deno.writeTextFileSync(`${outDirPath}/functions/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarFunction = sidebar.vuepress.find(
+          (e) => e.title === 'Functions'
+        )
+
+        if (sidebarFunction === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'Functions',
+            children: []
+          })
+
+          sidebarFunction = sidebar.vuepress[newLength - 1]
+        }
+        sidebarFunction.children.push(`functions/${name}`)
+      }
     })
   }
 
@@ -27,6 +68,26 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = variableToMarkdown(variable)
 
       Deno.writeTextFileSync(`${outDirPath}/variables/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarVariables = sidebar.vuepress.find(
+          (e) => e.title === 'Variables'
+        )
+
+        if (sidebarVariables === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'Variables',
+            children: []
+          })
+
+          sidebarVariables = sidebar.vuepress[newLength - 1]
+        }
+        sidebarVariables.children.push(`variables/${name}`)
+      }
     })
   }
 
@@ -37,6 +98,24 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = classToMarkdown(classes)
 
       Deno.writeTextFileSync(`${outDirPath}/classes/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarClasses = sidebar.vuepress.find((e) => e.title === 'Classes')
+
+        if (sidebarClasses === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'Classes',
+            children: []
+          })
+
+          sidebarClasses = sidebar.vuepress[newLength - 1]
+        }
+        sidebarClasses.children.push(`classes/${name}`)
+      }
     })
   }
 
@@ -47,6 +126,24 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = enumToMarkdown(enums)
 
       Deno.writeTextFileSync(`${outDirPath}/enums/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarEnums = sidebar.vuepress.find((e) => e.title === 'Enums')
+
+        if (sidebarEnums === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'Enums',
+            children: []
+          })
+
+          sidebarEnums = sidebar.vuepress[newLength - 1]
+        }
+        sidebarEnums.children.push(`enums/${name}`)
+      }
     })
   }
 
@@ -57,6 +154,26 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = interfaceToMarkdown(interfaces)
 
       Deno.writeTextFileSync(`${outDirPath}/interfaces/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarInterfaces = sidebar.vuepress.find(
+          (e) => e.title === 'Interfaces'
+        )
+
+        if (sidebarInterfaces === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'Interfaces',
+            children: []
+          })
+
+          sidebarInterfaces = sidebar.vuepress[newLength - 1]
+        }
+        sidebarInterfaces.children.push(`interfaces/${name}`)
+      }
     })
   }
 
@@ -67,15 +184,48 @@ const generateMarkdown = (groups: GroupedNodes, pathPrefix?: string) => {
       const content = typeAliasToMarkdown(typeAliases)
 
       Deno.writeTextFileSync(`${outDirPath}/typeAliases/${name}.md`, content)
+
+      if (siteGenerators.includes('vuepress')) {
+        if (sidebar.vuepress === undefined) {
+          sidebar.vuepress = []
+        }
+
+        let sidebarTypeAliases = sidebar.vuepress.find(
+          (e) => e.title === 'TypeAliases'
+        )
+
+        if (sidebarTypeAliases === undefined) {
+          const newLength = sidebar.vuepress.push({
+            title: 'TypeAliases',
+            children: []
+          })
+
+          sidebarTypeAliases = sidebar.vuepress[newLength - 1]
+        }
+        sidebarTypeAliases.children.push(`typeAliases/${name}`)
+      }
     })
   }
 
   if (groups.namespaces.length !== 0) {
     checkAndCreateDir(`${outDirPath}/namespaces/`)
     groups.namespaces.forEach((namespaces) => {
-      namespaceToMarkdown(namespaces, `${outDirPath}/namespaces`)
+      namespaceToMarkdown(
+        namespaces,
+        `${outDirPath}/namespaces`,
+        siteGenerators
+      )
+      if (siteGenerators.includes('vuepress')) {
+        console.log(
+          warningText(
+            `Generating sidebar config for namespaces are currently not supported. Skipping namespace ${namespaces.name}...`
+          )
+        )
+      }
     })
   }
+
+  return sidebar
 }
 
 export { generateMarkdown }

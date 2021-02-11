@@ -6,32 +6,51 @@ import {
   sortByAlphabet
 } from './utils/docs.ts'
 import { generateMarkdown } from './utils/generate.ts'
-import { FileNotFoundError } from './utils/errors.ts'
-import { parse } from './deps.ts'
+import { checkIfSiteGeneratorActivated } from './utils/checker.ts'
+import { Command } from './deps.ts'
+import { errorText, infoText, successText } from './utils/consoleStyles.ts'
 
-interface parsedArg {
-  _: Array<string | number>
-  out?: string
-  vuepress?: boolean
-  docusaurus?: boolean // maybe later
+interface parsedOptions {
+  filename: string
+  out: string
+  vuepress: boolean
+  docusaurus: boolean // maybe later
 }
 
-const parsed: parsedArg = parse(Deno.args)
-const filename: string = parsed._[0].toString()
+const parsed = await new Command<parsedOptions, string[]>()
+  .name('Mdoc')
+  .description('Document generator for Deno projects.')
+  .arguments('<filename:string>')
+  .option('-o, --out <out>', 'Sets the output directory.', {
+    default: 'out/'
+  })
+  .option('-v, --vuepress', 'Sets vuepress mode to enable.', {
+    default: false
+  })
+  .option('-d, --docusaurus', 'Sets docusaurus mode to enable.', {
+    default: false
+  })
+  .parse(Deno.args)
+const filename: string = parsed.args[0]
 
 if (filename === undefined) {
-  throw new FileNotFoundError(`Filename not detected.`)
+  console.log(errorText('Filename not detected.'))
+  Deno.exit(1)
 }
 
 try {
   Deno.readTextFileSync(filename)
 } catch (error) {
   if (error.name === 'NotFound') {
-    throw new FileNotFoundError(`File "${filename}" not found.`)
+    console.log(errorText(`File "${filename}" not found.`))
+    Deno.exit(1)
   } else {
     throw error
   }
 }
+
+const startTime = Date.now()
+console.log(infoText('Reading files and generating nodes...'))
 
 const fileProcess = await Deno.run({
   cmd: ['deno', 'doc', filename, '--reload', '--json'],
@@ -51,6 +70,30 @@ setRuntimeBuiltinNodes(
   flattenNamespaces(expandNamespaces(JSON.parse(builtinJSON)))
 )
 
+const siteGenerators = checkIfSiteGeneratorActivated(
+  parsed.options.vuepress,
+  parsed.options.docusaurus
+)
+
 const groups = groupNodes(sortByAlphabet(getNodes()))
 
-generateMarkdown(groups, parsed.out ?? 'out/')
+console.log(infoText('Generating markdown files...'))
+
+const configResult = generateMarkdown({
+  groups,
+  pathPrefix: parsed.options.out,
+  siteGenerators
+})
+
+if (configResult.vuepress !== undefined) {
+  Deno.writeTextFileSync(
+    `${parsed.options.out}/vuepress.config.js`,
+    '// This is not-completed sidebar config. ' +
+      'Please copy this config and follow https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar .' +
+      `\n${Deno.inspect(configResult.vuepress, {
+        depth: 100
+      })}`
+  )
+}
+
+console.log(successText(`Done! Took ${Date.now() - startTime}ms.`))

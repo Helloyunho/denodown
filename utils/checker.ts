@@ -22,4 +22,28 @@ const checkAndCreateDir = (path: string) => {
   }
 }
 
-export { checkAndCreateDir, checkIfNotNullOrUndefined }
+type SupportedSiteGenerators = 'vuepress' | 'docusaurus'
+
+const checkIfSiteGeneratorActivated = (
+  vuepress?: boolean,
+  docusaurus?: boolean
+): SupportedSiteGenerators[] => {
+  const result: SupportedSiteGenerators[] = []
+
+  if (vuepress) {
+    result.push('vuepress')
+  }
+  if (docusaurus) {
+    throw Error('This site generator is currently not supported.')
+  }
+
+  return result
+}
+
+export {
+  checkAndCreateDir,
+  checkIfNotNullOrUndefined,
+  checkIfSiteGeneratorActivated
+}
+
+export type { SupportedSiteGenerators }
