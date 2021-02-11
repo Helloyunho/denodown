@@ -1,6 +1,6 @@
 # Denodown
 
-> Generates Deno file(probably mod.ts) to Markdown document.
+> Generates Markdown document from Deno file(probably mod.ts).
 
 ## How did you make it?
 
