@@ -19,7 +19,7 @@ interface parsedOptions {
 
 const main = async (): Promise<void> => {
   const parsed = await new Command<parsedOptions, string[]>()
-    .name('Mdoc')
+    .name('Denodown')
     .description('Document generator for Deno projects.')
     .arguments('<filename:string>')
     .option('-o, --out <out>', 'Sets the output directory.', {

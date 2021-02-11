@@ -1,4 +1,4 @@
-# Mdoc
+# Denodown
 
 > Generates Deno file(probably mod.ts) to Markdown document.
 
