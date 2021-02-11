@@ -1,6 +1,6 @@
 # Mdoc
 
-> Converts json from deno doc to Markdown.
+> Generates deno file(probably mod.ts) to Markdown document.
 
 ## How did you make it?
 
