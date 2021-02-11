@@ -23,14 +23,15 @@ const main = async (): Promise<void> => {
     .description('Document generator for Deno projects.')
     .arguments('<filename:string>')
     .option('-o, --out <out>', 'Sets the output directory.', {
-      default: 'out/'
+      default: 'out'
     })
-    .option('-v, --vuepress', 'Sets vuepress mode to enable.', {
-      default: false
-    })
-    .option('-d, --docusaurus', 'Sets docusaurus mode to enable.', {
-      default: false
-    })
+    .option(
+      '-v, --vuepress [vuepress:boolean]',
+      'Sets vuepress mode to enable.',
+      {
+        default: false
+      }
+    )
     .parse(Deno.args)
   const filename: string = parsed.args[0]
 
