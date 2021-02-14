@@ -93,7 +93,8 @@ const main = async (): Promise<void> => {
       '// This is not-completed sidebar config. ' +
         'Please copy this config and follow https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar .' +
         `\n${Deno.inspect(configResult.vuepress, {
-          depth: 100
+          depth: 100,
+          iterableLimit: Infinity,
         })}`
     )
   }
