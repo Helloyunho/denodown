@@ -89,12 +89,14 @@ const main = async (): Promise<void> => {
 
   if (configResult.vuepress !== undefined) {
     Deno.writeTextFileSync(
-      `${parsed.options.out}/vuepress.config.js`,
-      '// This is not-completed sidebar config. ' +
-        'Please copy this config and follow https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar .' +
-        `\n${Deno.inspect(configResult.vuepress, {
+      `${parsed.options.out}/vuepress-sidebar.js`,
+      '// Move this config to where your vuepress config is in and import this config.\n' +
+        '// And then you can use this config like this:\n' +
+        '// "/": require("vuepress-sidebar")\n' +
+        '// For more information please check this page: https://vuepress.vuejs.org/theme/default-theme-config.html#sidebar' +
+        `module.exports = ${Deno.inspect(configResult.vuepress, {
           depth: 100,
-          iterableLimit: Infinity,
+          iterableLimit: Infinity
         })}`
     )
   }
