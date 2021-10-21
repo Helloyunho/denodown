@@ -117,8 +117,12 @@ async function validateUri(uri: string) {
         method: 'HEAD',
         signal: controller.signal
       })
-      console.log(infoText('Entrypoint file check status:', res.status))
       clearTimeout(handle)
+      console.log(infoText('Entrypoint file check has status', res.status))
+      if (res.status < 200 || 299 < res.status) {
+        console.log(errorText(`Cannot download entrypoint file from '${uri}'`))
+        Deno.exit(1)
+      }
     } catch (e) {
       if (controller.signal.aborted) {
         console.log(errorText(`Download from '${uri}' timed out.`))
