@@ -100,20 +100,19 @@ if (import.meta.main) {
 }
 
 async function validateUri(uri: string) {
-  let url: URL
+  let url: URL | undefined
   try {
     url = new URL(uri)
   } catch (error) {
-    console.log(errorText(`Cannot parse '${uri}' to a valid URI!`))
-    Deno.exit(1)
+    // not a valid URL, assume file path
   }
 
-  if (url.protocol.startsWith('http')) {
+  if (url !== undefined && url.protocol.startsWith('http')) {
     // try to fetch file from URL
     const controller = new AbortController()
     const handle = setTimeout(() => controller.abort(), 10 * 1000) // 10 seconds timeout
     try {
-      const res = await fetch(uri, {
+      const res = await fetch(url, {
         method: 'HEAD',
         signal: controller.signal
       })
